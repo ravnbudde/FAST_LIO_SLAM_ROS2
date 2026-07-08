@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>fast_lio_slam_bringup</name>
+  <version>0.1.0</version>
+  <description>Composed bringup for Fast-LIO and SC-PGO full LiDAR SLAM.</description>
+
+  <maintainer email="lonewolf@example.com">lonewolf</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>fast_lio</exec_depend>
+  <exec_depend>aloam_velodyne</exec_depend>
+  <exec_depend>rclcpp_components</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
