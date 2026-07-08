@@ -4,6 +4,39 @@ ROS 2 full LiDAR SLAM stack that runs Fast-LIO odometry and SC-PGO pose graph op
 
 The default bringup launches both processing nodes as ROS 2 components in one multithreaded component container. Fast-LIO publishes its body-frame registered cloud to an internal stack topic consumed by SC-PGO with intra-process comms enabled. Fast-LIO odometry is also published as a normal ROS topic so other nodes can subscribe to it.
 
+## Dependencies
+
+SC-PGO needs GTSAM.
+```bash
+sudo apt install -y \
+    build-essential \
+    cmake \
+    git \
+    libboost-all-dev \
+    libeigen3-dev \
+    libtbb-dev
+mkdir -p ~/third_party
+cd ~/third_party
+rm -rf gtsam
+git clone https://github.com/borglab/gtsam.git
+cd gtsam
+git checkout 4.2
+cmake -S . -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DGTSAM_BUILD_TESTS=OFF \
+    -DGTSAM_BUILD_EXAMPLES_ALWAYS=OFF \
+    -DGTSAM_BUILD_UNSTABLE=ON \
+    -DGTSAM_USE_SYSTEM_EIGEN=ON \
+    -DCMAKE_INSTALL_PREFIX=/usr/local
+cmake --build build -j$(nproc)
+sudo cmake --install build
+sudo ldconfig
+
+# Verify install
+find /usr/local -name "GTSAMConfig.cmake"
+find /usr/local -name "*gtsam_unstable*"
+```
+
 ## Packages
 
 - `FAST-LIO2` (`fast_lio`): LiDAR-inertial odometry front-end. This repo uses the composed-node version and provides `fast_lio::LaserMappingNode`.
@@ -62,6 +95,16 @@ SCDs/*.scd
 ```
 
 `Scans/` and `SCDs/` are recreated when SC-PGO starts. Use a new `save_directory` for each run you want to keep.
+
+## Compact disk usage clone
+
+To avoid downloading old documentation/media blobs from submodule history, clone the parent shallowly and initialize submodules as shallow single-branch checkouts:
+
+```bash
+git clone --depth 1 --single-branch --no-recurse-submodules https://github.com/ravnbudde/FAST_LIO_SLAM_ROS2.git
+cd FAST_LIO_SLAM_ROS2
+git submodule update --init --recursive --depth 1 --single-branch
+```
 
 ## Build
 
