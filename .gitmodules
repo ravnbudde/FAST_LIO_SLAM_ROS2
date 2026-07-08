@@ -1,0 +1,8 @@
+[submodule "SC-PGO"]
+	path = SC-PGO
+	url = https://github.com/ravnbudde/SC-A-LOAM-ROS2.git
+	branch = SC-PGO-ros2
+[submodule "FAST-LIO2"]
+	path = FAST-LIO2
+	url = https://github.com/ravnbudde/FAST_LIO_ROS2.git
+	branch = composed-node
